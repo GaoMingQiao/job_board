@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} - Accueil{% endblock %}
+
+{% block body %}
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {% for setting in settings %}
+        <div class="carousel-item {% if loop.first %} active {% endif %}">
+                            <img src="{{asset('uploads/'~ setting.image)}}" class="d-block w-100 home-img" alt="First Image">
+                            <div class="carousel-caption d-none d-md-flex align-items-center justify-content-start h-100">
+                                <div class="col-9">
+                                    <h3 class="text-left home-text">
+                                        {{ setting.message|raw }}
+                                    </h3>
+                                    <button class="btn btn-primary btn-lg mt-2">
+                                    {{ setting.callToAction}}
+                                    </button>
+        
+                                </div>
+                            </div>
+        
+        
+                        </div>
+        
+                    {% endfor %}
+
+        
+    </div>
+</div>
+
+<section class="container py-5">
+    <h2 class="text-center mb-4">Offres d'emploi récentes</h2>
+
+    <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <!-- Carte offre d'emploi -->
+        <div class="col mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <img src="{{asset('uploads/logo.png')}}" class="card-img-top" alt="Logo de l'entreprise" style="height: 50px; width: 50px; object-fit: cover;border-radius: 50%;"/>
+                        <p class="card-subtitle text-end ms-2">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            Localisation
+                        </p>
+                    </div>
+                    <h5 class="card-title">Titre de l'offre</h5>
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text">Nom de l'entreprise</p>
+                        <p class="card-text">CDI</p>
+                        <p class="card-text">50 000 €/an</p>
+                    </div>
+                    <p class="card-text">Description courte de l'offre.</p>
+                    <div class="mb-1">
+                        <p class="card-text">Compétences</p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <span class="badge bg-primary">PHP</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <span class="badge bg-primary">CLOUD</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <span class="badge bg-primary">SYMFONY</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <span class="badge bg-primary">LARAVEL</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="bi bi-clock"></i>
+                            Publié le 01/01/2021
+                        </small>
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="#" class="btn btn-primary">
+                        <i class="bi bi-eye"></i>
+                        Postuler
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Fin carte offre d'emploi -->
+    </div>
+</section>
+
+
+<section class="container py-5">
+    <h2 class="text-center mb-4">Entreprises récentes</h2>
+    <div
+        class="row g-4">
+        <!-- Carte d'entreprise 1 -->
+        <div class="col-md-6 mb-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{asset('uploads/logo.png')}}" class="img-fluid rounded-start" alt="Logo de l'entreprise" style="height: 100%; width: 100%; object-fit: cover;"/>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Nom de l'entreprise</h5>
+                            <p class="card-text">Brève description de l'entreprise.</p>
+                            <p class="card-text">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                Adresse: 123 Rue de l'entreprise, Ville, Pays<br>
+                                Téléphone: +33 1 23 45 67 89<br>
+                                Email: info@entreprise.com
+                            </p>
+                            <a href="mailto:info@entreprise.com" class="btn btn-primary">Envoyer un email</a>
+                            <a href="tel:+33123456789" class="btn btn-primary">Appeler</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}
