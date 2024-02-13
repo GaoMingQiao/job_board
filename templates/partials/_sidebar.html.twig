@@ -15,32 +15,36 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
+            <a href="{{ path('app_user_profil')}}" class="nav-link text-white">
                 Profil
             </a>
         </li>
     </ul>
      {% elseif app.user.status =='Professionnel' %}
     <ul class="nav nav-pills flex-column mb-auto">
+          
         <li>
-            <a href="#" class="nav-link text-white">Mes offres
+            <a href="{{ path('app_entreprise_profil') }}" class="nav-link text-white">
+                Profil
+            </a>
+        </li>
+        {% if app.user.entrepriseProfil%}
+        <li>
+            <a href="{{ path('app_offer')}}" class="nav-link text-white">Mes offres
 
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
+            {# <a href="{{ path('app_entreprise-profil_show',{'slug':app.user.slug}) }}" class="nav-link text-white">
                 Mes informations
-            </a>
+            </a> #}
         </li>
         <li>
-            <a href="#" class="nav-link text-white">
+            <a href="{{path('app_tag')}}" class="nav-link text-white">
                 Les Mot clés</a>
         </li>
-        <li>
-            <a href="#" class="nav-link text-white">
-                Profil
-            </a>
-        </li>
+        {% endif %}
+      
 
     </li>
 </ul>

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+	{{ parent() }}
+	- Création compte entreprise
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-2 p-0 m-0">
+			{% include "partials/_sidebar.html.twig" %}
+		</div>
+		<div class="col-10">
+			{% block content %}
+			<h4 class="text-center">
+				Créez votre profil entreprise
+			</h4>
+			<div class="rox">
+				<div class="col-12">
+					{{ form_start(form) }}
+					<div class="row g-3">
+						<div class="col">
+							{{ form_row(form.name)}}
+						</div>
+						<div class="col">
+							{{ form_row(form.email)}}
+						</div>
+
+					</div>
+					<div class="row g-3">
+						<div class="col">{{ form_row(form.phoneNumber)}}</div>
+						<div class="col">{{ form_row(form.address)}}</div>
+					
+					</div>
+					<div class="row g-3">
+						<div class="col">{{ form_row(form.city)}}</div>
+						<div class="col">{{ form_row(form.zipCode)}}</div>
+						<div class="col">{{ form_row(form.country)}}</div>
+					</div>
+					<div class="row g-3">
+						<div class="col">{{ form_row(form.activityArea)}}</div>
+						<div class="col">{{ form_row(form.website)}}</div>
+						
+					</div>
+					{{form_row(form.description)}}
+					{{form_row(form.logoEntreprise)}}
+			
+					<button type = "submit" class="btn btn-info">Créer</button>
+					{{ form_end(form) }}
+
+
+				</div>
+
+			</div>
+			{% endblock %}
+
+		</div>
+	</div>
+</div>
+
+	
+{% endblock %}

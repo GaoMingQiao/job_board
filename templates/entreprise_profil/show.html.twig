@@ -1,0 +1,70 @@
+{% extends 'entreprise_profil/index.html.twig' %}
+
+
+{% block title %}
+	{{ parent() }}
+	- Mon profil
+{% endblock %}
+
+{% block content %}
+
+	{% set profil = app.user.entrepriseProfil %}
+
+	<div class="container mt-5">
+		<h1 class="text-center mb-4">
+			Domaine d'activité :
+			<span class="badge bg-secondary">{{ profil.activityArea }}</span>
+		</h1>
+		<div class="card card-text mb-4">
+			<div class="card-body d-flex justify-content-between">
+				<div class="col-md-4">
+					{# <img src="{{ asset('uploads/' ~ profil.logo) }}" alt="{{ profil.slug }}" class="img-fluid rounded shadow-lg"> #}
+					{% if 'https://api.dicebear.com' in  profil.logo %}
+
+						<img src="{{ profil.logo}}" alt="{{ profil.slug }}" class="img-fluid rounded shadow-lg">
+
+					{% else %}
+						<img src="{{ asset('uploads/' ~ profil.logo) }}" alt="{{profil.slug }}" class="img-fluid rounded shadow-lg">
+
+					{% endif %}
+				</div>
+				<div class="col-md-4">
+					<h2 class="text-center">
+						{{ profil.name}}
+					
+					</h2>
+					<details>
+						<summary>Informations entreprise</summary>
+						{{profil.address}}
+						{{profil.zipCode}}
+						{{profil.city}}
+						{{profil.country}}
+					</details>
+					<p>Tel :{{profil.phoneNumber}}</p>
+					
+				</div>
+			</div>
+
+			<hr>
+			<div class="card-body">
+				<b>
+					Qui suis-je ?</b>
+				<p>
+					{{profil.description}}
+				</p>
+
+				<a href="{{path('app_offer_create')}}" class="btn btn-success">
+					Créer un un nouvelle offre
+				</a>
+				<a href="{{ path('app_entreprise_profil_edit',{'slug':profil.slug})}}" class="btn btn-warning">
+					<i class="bi bi-pencil-square"></i>
+				</a>
+				<a href="{{ path('app_entreprise_profil_delete',{'slug':profil.slug })}}" class="btn btn-danger">
+					<i class="bi bi-trash"></i>
+				</a>
+				
+			</div>
+		</div>
+
+	</div>
+</div>{% endblock %}

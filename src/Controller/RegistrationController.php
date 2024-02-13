@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
             );
             //  
             if ($form->get('status')->getData() === 'Professionnel') {
-                $user->setRoles(['Role_Pro']);
+                $user->setRoles(['ROLE_PRO']);
             }
             $entityManager->persist($user);
             $entityManager->flush();

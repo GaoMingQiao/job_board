@@ -86,6 +86,7 @@ class ProfileType extends AbstractType
             ->add('website', UrlType::class)
             ->add('imageFile', FileType::class, [
                 'label' => false,
+                'required' => false,
                 'constraints' => [
                     new Image([
                         'maxSize' => '3M',
@@ -99,12 +100,12 @@ class ProfileType extends AbstractType
 
                     ])
                 ]
-            ])
-            //             ->add('user', EntityType::class, [
-            //                 'class' => User::class,
-            // 'choice_label' => 'id',
-            //             ])//c'est pas à utilisateur à fournir
-            ->add('ajouter', SubmitType::class);
+            ]);
+        //             ->add('user', EntityType::class, [
+        //                 'class' => User::class,
+        // 'choice_label' => 'id',
+        //             ])//c'est pas à utilisateur à fournir
+        // ->add('ajouter', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

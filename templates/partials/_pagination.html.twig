@@ -1,0 +1,17 @@
+{% set routeName = 'app_offer_emploi' %}
+{% set pages = offers.pages %}
+{% set page = offers.page %}
+
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item {%if page == 1 %} disabled{% endif %}"><a class="page-link" href="{{path(routeName,{page:page-1})}}">Previous</a></li>
+      {% for i in 1..7 %}
+      <li class="page-item {% if page == i %} active{%endif%}"><a class="page-link"
+         href="{{path(routeName,{'page':i})}}">{{i}}</a></li>
+     {%endfor%}
+
+     <li class="page-item {%if page == pages %} disabled{% endif %}"><a class="page-link" href="{{path(routeName,{page:page+1})}}">Next</a></li>
+    </ul>
+  </nav>

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+	{{ parent() }}
+	- Nos offres
+{% endblock %}
+
+{% block body %}
+{{dump(candidatures)}}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-2 p-0 m-0">
+			{% include "partials/_sidebar.html.twig" %}
+		</div>
+		<div class="col-10">
+			{% block content %}
+			<h4 class="text-center">
+				Mes derniers candidatures
+                
+			</h4>
+            <p><a href="{{path('app_offer_create')}}" class="btn btn-primary">Ajouter nouveau</a></p>
+			<table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">title</th>
+                    <th scope="col">salary</th>
+                    <th scope="col">localisation</th>
+                    <th scope="col">contract type</th>
+                    <th scope="col">publié le</th>
+                    <th scope="col">Nb de candidatues</th>
+                    <th scope="col">Gérer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for candidature in candidatures %}
+                  <tr>
+                    <th scope="row">{{candidature.entrepriseProfil.name}}</th>
+                    <td>{{candidature.title}}</td>
+                    <td>{{ offer.salary}}</td>
+                    <td>{{ offer.location}}</td>
+                    <td>{{ offer.contractType.name}}</td> 
+                    <td>{{ offer.createdAt|date("m/d/Y")}}</td> 
+                    <td>{{offer.applications|length}}</td>
+                    <td>
+                        <a href="{{ path('app_offer_show',{'slug':offer.slug})}}" class="btn btn-warning">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="{{ path('app_offer_edit',{'slug':offer.slug})}}" class="btn btn-danger">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="{{ path('app_offer_delete',{'slug':offer.slug})}}" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                        
+
+
+
+
+                    </td> 
+                  </tr>
+                  {% endfor %}
+                
+                </tbody>
+              </table>
+			{% endblock %}
+
+		</div>
+	</div>
+</div>
+
+	
+{% endblock %}

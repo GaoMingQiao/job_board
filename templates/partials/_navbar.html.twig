@@ -1,4 +1,4 @@
-<header class="p-3 text-bg-dark">
+{# <header class="p-3 text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -7,31 +7,34 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 text-secondary">Accueil</a></li>
+          <li><a href="{{path('app_home')}}" class="nav-link px-2 text-secondary">Accueil</a></li>
           <li><a href="#" class="nav-link px-2 text-white">Offres</a></li>
           <li><a href="#" class="nav-link px-2 text-white">Entreprise</a></li>
           <li><a href="#" class="nav-link px-2 text-white">Contact</a></li>
         
         </ul>
+        {% if is_granted('ROLE_USER')%}
+        {% set userStatus =  app.user.status %}
+        {% set userProfile = app.user.status = 'Candidat' ? app.user.profil : app.user.entrepriseProfil %}
+        {% set defaultImage = asset('uploads/default.png')%}
 
-        {# <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-        </form> #}
-        {% if app.user %}
         <div class="dropdown text-end">
             <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                <img src="{{userProfile is not null and userProfile.logo is not null ? asset('uploads/'~ userProfile.logo):defaultImage}}" alt="mdo" width="32" height="32" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small">
-                <li>
+                {# <li>
                     <a class="dropdown-item" href="#">New project...</a>
-                </li>
+                </li> #}
+                {# <li>
+                  <a href="{{ userStatus == 'Candidat'?path('app_user_profil'):path('app_entreprise_profil')}}" class="dropdown-item" >Profile</a>
+              </li>
+              {% if userStatus == 'Professionnel' and userProfile is not null %}
                 <li>
-                    <a class="dropdown-item" href="#">Settings</a>
+                    <a href="" class="dropdown-item" >Settings</a>
                 </li>
-                <li>
-                    <a class="dropdown-item" href="#">Profile</a>
-                </li>
+                {% endif %}
+               
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <a class="dropdown-item" href="{{path('app_logout')}}">Sign out</a>
@@ -48,4 +51,108 @@
 
       </div>
     </div>
-  </header>
+  </header> #} 
+
+  <header class="p-3 text-bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          <img src="{{ asset('uploads/logo.png')}}" alt="logo" width="40" height="40" class="">
+          
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{{path('app_home')}}" class="nav-link px-2 text-secondary">Accueil</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Offres</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Entreprise</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Contact</a></li>
+        
+        </ul>
+        {% if is_granted('ROLE_USER') %}
+            {% if app.user.status == 'Candidat' and app.user.profile is null %}
+            <div class="dropdown text-end">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{asset('uploads/default.png')}}" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small">
+              <li>
+                <a href="{{path('app_user_profil')}}" class="dropdown-item">Profil</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a href="{{path('app_logout')}}" class="dropdown-item">Sign out</a>
+              </li>
+            </ul>
+              
+            </div>
+         {% endif %}
+
+         {% if app.user.status == 'Candidat' and app.user.profile is not null %}
+             <div class="dropdown text-end">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{asset('uploads/'~ app.user.profile.picture)}}" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small">
+              <li>
+                <a href="{{ path('app_user_profil_show',{'slug':app.user.profile.slug })}}" class="dropdown-item">Profil</a>
+              </li>
+              <li>
+                <a href="#" class="dropdown-item">Settings</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a href="{{path('app_logout')}}" class="dropdown-item">Sign out</a>
+              </li>
+            </ul>
+
+             </div>
+             {% endif %}
+        {% if app.user.status == 'Professionnel' and app.user.entrepriseProfil is null %}
+            <div class="dropdown text-end">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{asset('uploads/default.png')}}" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small">
+              <li>
+                <a href="{{path('app_entreprise_profil')}}" class="dropdown-item">Profil</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a href="{{path('app_logout')}}" class="dropdown-item">Sign out</a>
+              </li>
+            </ul>
+              
+            </div>
+         {% endif %}
+         {% if app.user.status == 'Professionnel' and app.user.entrepriseProfil is not null %}
+             <div class="dropdown text-end">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{asset('uploads/'~ app.user.entrepriseProfil.logo)}}" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small">
+              <li>
+                <a href="{{ path('app_entreprise_profil_show',{'slug':app.user.entrepriseProfil.slug })}}" class="dropdown-item">Profil</a>
+              </li>
+              <li>
+                <a href="#" class="dropdown-item">Settings</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a href="{{path('app_logout')}}" class="dropdown-item">Sign out</a>
+              </li>
+            </ul>
+
+             </div>
+             {% endif %}
+
+             {% else %}
+             <div class="text-end">
+              <a href="{{path('app_login')}}" type="button" class="btn btn-outline-light me-2">Connexion</a>
+              <a href="{{path('app_register')}}" type="button" class="btn btn-warning">Inscription</a>
+            </div>
+    
+            {% endif %}
+    
+          </div>
+        </div>
+      </header> 

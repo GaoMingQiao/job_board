@@ -149,3 +149,40 @@ Dans cette partie, nous allons créer la partie back-end du site web.
 
   - Création du crud admin sur l'entity `Offer`. L'admin peut desactiver une offre d'emploi.
     `symfony console make:admin:crud`
+
+### REFACTORING
+
+Ici nous allons faire du refactoring sur le code existant.
+On va ajouter `ck editor`, `select2` et `knplabs/knp-time-bundlebootstrap` pour gérer les dates et les heures.
+
+Les LifeCycle Callbacks permettent d'exécuter du code à des moments précis du cycle de vie d'une entité. Par exemple, nous pouvons utiliser les LifeCycle Callbacks pour générer le slug d'une entité avant de la persister en base de données ou pour mettre à jour la date de création ou de modification d'une entité.
+Pour cela, nous allons utiliser les annotations `@ORM\HasLifecycleCallbacks` et `@ORM\PrePersist` et `@ORM\PreUpdate`.
+Cette annotation permet d'indiquer à Doctrine que l'entité contient des LifeCycle Callbacks qui seront exécutés à des moments précis du cycle de vie de l'entité.
+Ceci va nous permettre de générer le slug et le createdAt et updatedAt automatiquement.
+Pour cela nous allons ajouter une méthode ` public function initalizeSlug()` dans l'entité `Offer` qui va générer le slug à partir du titre de l'offre d'emploi.
+Nous allons également ajouter une méthode `public function initalizeCreatedAt()` qui va générer la date de création de l'offre d'emploi.
+Mettre ceci en place sur toutes les entités qui ont besoin de ces fonctionnalités.
+
+## Partie 5
+
+- [x] Installation de `orm-fixtures` pour générer des données de test.
+      `composer require orm-fixtures --dev`
+
+- [x] Création des fixtures pour les entités `ContractType`, `Tag`, `User`, , `UserProfil`, `EntrepriseProfil`, `Offer`.
+
+- [x] Nous allons, nous allons afficher les 6 dernières offres d'emploi sur la page d'accueil et les 4 dernières entreprises.
+- [x] Création de la route `/offre-emploi` qui affiche la liste des offres d'emploi sur la page Offres.Pour cela, nous allons créer une méthode `public function getOffers()` dans le `HomeController` qui va récupérer les offres d'emploi et les passer à la vue `home/offer_list.html.twig`.
+
+- [x] Création de la pagination sur la page `/offre-emploi`. Nous allons le faire sans utiliser de bundle externe.Vous pouvez utiliser le bundle `knplabs/knp-paginator-bundle` si vous le souhaitez.
+
+- [x] Création de la route `/offre-emploi/{id}` qui affiche le détail d'une offre d'emploi sur la page Offre. Pour cela, nous allons créer une méthode `public function getOneOffer()` dans le `HomeController` qui va récupérer l'offre d'emploi et la passer à la vue `home/offer_detail.html.twig`.
+- [x] Permettre à l'utilisateur de postuler à une offre d'emploi.
+
+- [x] Création de l'entité `application` qui contient les champs suivants: - id (int) - status (string) => (pending,accepted,refused) - createdAt (datetimeimmutable) - User (User) => ManyToOne car un utilisateur peut postuler à plusieurs offres d'emploi. - Offer (Offer) => ManyToOne car une offre d'emploi peut avoir plusieurs candidatures. - Entreprise (Entreprise) => ManyToOne car une entreprise peut avoir plusieurs candidatures. - message (text) nullable
+
+  `symfony console make:entity Application`
+
+- [x] Création du formulaire d'application à une offre d'emploi.
+- [x] Création de la route `/apply/{id}` qui permet à l'utilisateur de postuler à une offre d'emploi.L'utilisateur doit être connecté pour pouvoir postuler à une offre d'emploi.
+- [x] Création de la route `/account/application` qui permet à l'utilisateur de voir ses candidatures.
+- [x] Création de la route `/entreprise/application` qui permet à l'entreprise de voir les candidatures à ses offres d'emploi.

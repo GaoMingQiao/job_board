@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TagRepository;
 use Cocur\Slugify\Slugify;
@@ -25,6 +27,20 @@ class Tag
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\ManyToMany(targetEntity: Offer::class, mappedBy: 'tags')]
+    private Collection $offers;
+
+    public function __construct()
+    {
+        $this->offers = new ArrayCollection();
+    }
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function prePersistAndPreUpdate(): void
+    {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
 
     public function getId(): ?int
     {
@@ -54,10 +70,31 @@ class Tag
 
         return $this;
     }
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function prePersistAndcPreUpdate(): void
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffers(): Collection
     {
-        $this->slug = (new Slugify())->slugify($this->name);
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): static
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): static
+    {
+        if ($this->offers->removeElement($offer)) {
+            $offer->removeTag($this);
+        }
+
+        return $this;
     }
 }

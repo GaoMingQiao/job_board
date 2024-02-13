@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	- Gestion candidats
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-2 p-0 m-0">
+				{% include "partials/_sidebar.html.twig" %}
+			</div>
+			<div class="col-10">
+				{% block content %}
+
+                    <h1 class="text-center my-5">Gestion des candidatures</h1>  
+{# <a href="{{path('app_offer_show',{'slug':application.offer.slug})}}" class="btn btn-primary my-2">Retour</a> #}
+
+
+					<div class="container w-50 rounded p-5 shadow bg-light">
+						<h3>{{application.user.profile.firstName}}</h3>
+						<p class="text-secondary fw-lighter">Message:
+							{{application.message}}
+						</p>
+						<div>
+							<small class="text-secondary">
+								{{application.createdAt|ago(locale='fr')}}
+							</small>
+						</div>
+						{{form_start(statusForm)}}
+						{{form_row(statusForm.status)}}
+						<button type="submit" class="btn btn-info my-2">Valider</button>
+						{{form_end(statusForm)}}
+					</div>
+
+
+				{% endblock %}
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
